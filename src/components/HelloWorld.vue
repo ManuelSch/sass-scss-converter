@@ -1,15 +1,17 @@
 <template>
     <div class="editors hbox">
         <div>
+            {{ inputLanguage }}
             <prism-editor v-model="textInput"
                           emit-events
-                          :language="inputLanguage"
+                          language="css"
                 />
         </div>
         <div>
+            {{ outputLanguage }}
             <prism-editor v-model="output"
                           emit-events
-                          :language="outputLanguage"
+                          language="css"
                           readonly
                 />
         </div>
@@ -19,24 +21,26 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
+
+    @Component
 export default class HelloWorld extends Vue {
 
-    public inputLanguage: 'sass' | 'scss' = 'sass';
+        public inputLanguage: 'sass' | 'scss' = 'sass';
 
-    public textInput: string = '';
+        public textInput: string = '';
 
-    get outputLanguage() {
-        return this.inputLanguage === 'sass' ? 'scss' : 'sass';
-    }
+        get outputLanguage() {
+            return this.inputLanguage === 'sass' ? 'scss' : 'sass';
+        }
 
-    get output() {
-        return '';
-    }
+        get output() {
+            return '';
+        }
 
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
     .editors
         height: 100%
