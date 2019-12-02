@@ -3,7 +3,7 @@
         <b-navbar-brand>
             Sass-to-SCSS Converter
             [Beta]
-            <a href="https://github.com/ManuelSch/sass-scss-converter" style="color: white; font-size: 70%; opacity: 0.7; margin-left: .5rem">
+            <a href="https://github.com/ManuelSch/sass-scss-converter" class="made-by">
                 by ManuelSch
             </a>
         </b-navbar-brand>
@@ -28,4 +28,9 @@ export default class Navbar extends Vue {
 </script>
 
 <style lang="sass">
+    .made-by
+        color: white
+        font-size: 70%
+        opacity: 0.7
+        margin-left: .5rem
 </style>
