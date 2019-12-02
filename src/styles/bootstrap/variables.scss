@@ -1,0 +1,341 @@
+
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+
+//
+// Color system
+//
+
+$white:    #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black:    #000;
+
+$grays: ();
+// stylelint-disable-next-line scss/dollar-variable-default
+$grays: map-merge(
+                (
+                        "100": $gray-100,
+                        "200": $gray-200,
+                        "300": $gray-300,
+                        "400": $gray-400,
+                        "500": $gray-500,
+                        "600": $gray-600,
+                        "700": $gray-700,
+                        "800": $gray-800,
+                        "900": $gray-900
+                ),
+                $grays
+);
+
+
+$blue:    #007bff;
+$indigo:  #6610f2;
+$purple:  #6f42c1;
+$pink:    #e83e8c;
+$red:     #dc3545;
+$orange:  #fd7e14;
+$yellow:  #ffc107;
+$green:   #28a745;
+$teal:    #20c997;
+$cyan:    #17a2b8;
+
+$colors: ();
+// stylelint-disable-next-line scss/dollar-variable-default
+$colors: map-merge(
+                (
+                        "blue":       $blue,
+                        "indigo":     $indigo,
+                        "purple":     $purple,
+                        "pink":       $pink,
+                        "red":        $red,
+                        "orange":     $orange,
+                        "yellow":     $yellow,
+                        "green":      $green,
+                        "teal":       $teal,
+                        "cyan":       $cyan,
+                        "white":      $white,
+                        "gray":       $gray-600,
+                        "gray-dark":  $gray-800
+                ),
+                $colors
+);
+
+$primary:       $col-primary;
+$secondary:     $col-primary-alt;
+$success:       $green;
+$info:          $yellow;
+$warning:       $yellow;
+$danger:        $red;
+$light:         $gray-100;
+$dark:          $gray-800;
+
+$theme-colors: ();
+// stylelint-disable-next-line scss/dollar-variable-default
+$theme-colors: map-merge(
+                (
+                        "primary":    $primary,
+                        "secondary":  $secondary,
+                        "success":    $success,
+                        "info":       $info,
+                        "warning":    $warning,
+                        "danger":     $danger,
+                        "light":      $light,
+                        "dark":       $dark,
+                ),
+                $theme-colors
+);
+
+// Set a specific jump point for requesting color jumps
+$theme-color-interval:      8%;
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold:  150;
+
+// Customize the light and dark text colors for use in our YIQ color contrast function.
+$yiq-text-dark:             $gray-900;
+$yiq-text-light:            $white;
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+
+$enable-caret:              true;
+$enable-rounded:            true;
+$enable-shadows:            false;
+$enable-gradients:          false;
+$enable-transitions:        true;
+$enable-hover-media-query:  false; // Deprecated, no longer affects any compiled CSS
+$enable-grid-classes:       true;
+$enable-print-styles:       true;
+
+
+// Spacing
+//
+// Control the default styling of most Bootstrap elements by modifying these
+// variables. Mostly focused on spacing.
+// You can add more entries to the $spacers map, should you need more variation.
+
+$spacer: 1rem;
+$spacers: ();
+// stylelint-disable-next-line scss/dollar-variable-default
+$spacers: map-merge(
+                (
+                        0: 0,
+                        1: ($spacer * .25),
+                        2: ($spacer * .5),
+                        3: $spacer,
+                        4: ($spacer * 1.5),
+                        5: ($spacer * 3)
+                ),
+                $spacers
+);
+
+// This variable affects the `.h-*` and `.w-*` classes.
+$sizes: ();
+// stylelint-disable-next-line scss/dollar-variable-default
+$sizes: map-merge(
+                (
+                        25: 25%,
+                        50: 50%,
+                        75: 75%,
+                        100: 100%,
+                        auto: auto
+                ),
+                $sizes
+);
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:                   $white;
+$body-color:                $gray-900;
+
+// Links
+//
+// Style anchor elements.
+
+$link-color:                theme-color("primary");
+$link-decoration:           none;
+$link-hover-color:          darken($link-color, 15%);
+$link-hover-decoration:     underline;
+
+// Paragraphs
+//
+// Style p element.
+
+$paragraph-margin-bottom:   1rem;
+
+
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1200px
+);
+
+@include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
+@include _assert-starts-at-zero($grid-breakpoints);
+
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+        sm: 540px,
+        md: 720px,
+        lg: 960px,
+        xl: 1140px
+);
+
+@include _assert-ascending($container-max-widths, "$container-max-widths");
+
+$container-width-sm: map-get($container-max-widths, sm);
+$container-width-md: map-get($container-max-widths, md);
+$container-width-lg: map-get($container-max-widths, lg);
+$container-width-xl: map-get($container-max-widths, xl);
+
+// Grid columns
+//
+// Set the number of columns and specify the width of the gutters.
+
+$grid-columns:                12;
+$grid-gutter-width:           30px;
+
+// Components
+//
+// Define common padding and border radius sizes and more.
+
+$line-height-lg:              1.5;
+$line-height-sm:              1.5;
+
+$border-width:                1px;
+$border-color:                $gray-300;
+
+$border-radius:               .25rem;
+$border-radius-lg:            .3rem;
+$border-radius-sm:            .2rem;
+
+$box-shadow-sm:               0 .125rem .25rem rgba($black, .075);
+$box-shadow:                  0 .5rem 1rem rgba($black, .15);
+$box-shadow-lg:               0 1rem 3rem rgba($black, .175);
+
+$component-active-color:      $white;
+$component-active-bg:         theme-color("primary");
+
+$caret-width:                 .3em;
+
+$transition-base:             all .2s ease-in-out;
+$transition-fade:             opacity .15s linear;
+$transition-collapse:         height .35s ease;
+
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+// stylelint-disable value-keyword-case
+$font-family-sans-serif:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$font-family-base:            $font-family-sans-serif;
+// stylelint-enable value-keyword-case
+
+$font-size-base:              1rem; // Assumes the browser default, typically `16px`
+$font-size-lg:                ($font-size-base * 1.25);
+$font-size-sm:                ($font-size-base * .875);
+
+$font-weight-light:           300;
+$font-weight-normal:          400;
+$font-weight-bold:            700;
+
+$font-weight-base:            $font-weight-normal;
+$line-height-base:            1.5;
+
+$h1-font-size:                $font-size-base * 2.5;
+$h2-font-size:                $font-size-base * 2;
+$h3-font-size:                $font-size-base * 1.75;
+$h4-font-size:                $font-size-base * 1.5;
+$h5-font-size:                $font-size-base * 1.25;
+$h6-font-size:                $font-size-base;
+
+$headings-margin-bottom:      ($spacer / 2);
+$headings-font-family:        inherit;
+$headings-font-weight:        500;
+$headings-line-height:        1.2;
+$headings-color:              inherit;
+
+$display1-size:               6rem;
+$display2-size:               5.5rem;
+$display3-size:               4.5rem;
+$display4-size:               3.5rem;
+
+$display1-weight:             300;
+$display2-weight:             300;
+$display3-weight:             300;
+$display4-weight:             300;
+$display-line-height:         $headings-line-height;
+
+$lead-font-size:              ($font-size-base * 1.25);
+$lead-font-weight:            300;
+
+$small-font-size:             80%;
+
+$text-muted:                  $gray-600;
+
+$blockquote-small-color:      $gray-600;
+$blockquote-font-size:        ($font-size-base * 1.25);
+
+$hr-border-color:             rgba($black, .1);
+$hr-border-width:             $border-width;
+
+$mark-padding:                .2em;
+
+$dt-font-weight:              $font-weight-bold;
+
+$kbd-box-shadow:              inset 0 -.1rem 0 rgba($black, .25);
+$nested-kbd-font-weight:      $font-weight-bold;
+
+$list-inline-padding:         .5rem;
+
+$mark-bg:                     #fcf8e3;
+
+$hr-margin-y:                 $spacer;
+
+
+
+
+// Modals
+
+$modal-sm:                          350px;
+
+
+// Buttons
+
+$btn-transition:              color .1s ease-in-out, background-color .1s ease-in-out, border-color .1s ease-in-out, box-shadow .1s ease-in-out;
+
+
+// Navbar
+$navbar-dark-color:                 rgba($white, .8);
+$navbar-dark-hover-color:           rgba($white, 1);
+
+
+// Dropdowns
+$dropdown-min-width:                12rem;
+$dropdown-item-padding-x:           1rem;

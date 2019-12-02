@@ -1,41 +1,58 @@
 <template>
     <div class="editors vbox">
-        <div class="hbox">
-            <div class="center-full" style="width: 100%">
+        <div class="header-bar hbox">
+            <div class="center-full" style="width: 100%; font-variant: small-caps">
                 From: <strong>{{ inputLanguage }}</strong>
             </div>
             <div>
-                <b-button size="sm" variant="outline-secondary" @click="switchLanguages()">
-                    <fa-icon :icon="['fas', 'arrows-alt-h']" />
+                <b-button size="sm"
+                          variant="outline-secondary"
+                          style="white-space: nowrap"
+                          @click="switchLanguages()"
+                    >
+                    <fa-icon :icon="['fas', 'arrow-left']" class="mb-1" /> Switch <fa-icon :icon="['fas', 'arrow-right']" class="mb-1" />
                 </b-button>
             </div>
-            <div class="center-full" style="width: 100%">
+            <div class="center-full" style="width: 100%; font-variant: small-caps">
                 To: <strong>{{ outputLanguage }}</strong>
             </div>
         </div>
-        <div class="hbox grow">
+        <div class="hbox grow" style="position: relative">
             <div class="editor">
                 <prism-editor v-model="input"
                               emit-events
                               language="css"
+                              line-numbers
                               @change="inputChange"
                     />
             </div>
             <div class="editor output-editor copy-all">
-                <b-button class="clipboard-button"
-                          title="Copy to clipboard"
-                          squared
-                          @click="copyOutputToClipboard()"
-                    >
-                    <fa-icon :icon="['fas', 'clipboard']" />
-                </b-button>
+                <div class="output-buttons">
+                    <b-button title="Download as file"
+                              squared
+                              variant="primary"
+                              :disabled="!output"
+                              @click="downloadOutputAsFile()"
+                        >
+                        <fa-icon :icon="['fas', 'download']" />
+                    </b-button>
+                    <b-button class="clipboard-button"
+                              title="Copy to clipboard"
+                              squared
+                              variant="primary"
+                              :disabled="!output"
+                              @click="copyOutputToClipboard()"
+                        >
+                        <fa-icon :icon="['fas', 'clipboard']" />
+                    </b-button>
+                </div>
                 <div style="position: absolute; right: 0">
                     <b-toast id="clipboard-toast"
                              variant="success"
                              auto-hide-delay="1000"
                              static
                         >
-                        <strong>Copied to clipboard</strong> <fa-icon :icon="['fas', 'check']" />
+                        <strong>Copied to clipboard</strong> <fa-icon :icon="['fas', 'check']" class="mb-1" />
                     </b-toast>
                 </div>
                 <prism-editor v-model="output"
@@ -54,10 +71,11 @@ import { convertSassToScss } from '@/util/convertSassToScss';
 import { convertScssToSass } from '@/util/convertScssToSass';
 import { formatSass } from '@/util/formatSass';
 import { formatScss } from '@/util/formatScss';
+import { downloadTextAsFile } from '@/util/downloadTextAsFile';
 
 
 @Component
-export default class HelloWorld extends Vue {
+export default class Converter extends Vue {
 
     public inputLanguage: 'Sass' | 'SCSS' = 'Sass';
 
@@ -97,17 +115,30 @@ export default class HelloWorld extends Vue {
     async copyOutputToClipboard() {
         await this.$copyText(this.output);
         (this as any).$bvToast.show('clipboard-toast');
-        // TODO: show message
+    }
+
+    downloadOutputAsFile() {
+        downloadTextAsFile(`style.${this.outputLanguage}`, this.output);
     }
 
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped lang="sass">
+    @import "../styles/imports"
+
     .editors
         height: 100%
         padding: 1rem
+
+        .header-bar
+            font-size: 100%
+
+            strong
+                display: inline-block
+                margin-left: 0.5rem
 
         .editor
             width: 100%
@@ -116,10 +147,13 @@ export default class HelloWorld extends Vue {
         .output-editor
             position: relative
 
-            .clipboard-button
+            .output-buttons
                 position: absolute
                 right: 0
                 top: 0
+
+                > * + *
+                    margin-left: 1px
 
     .vbox
         > div + div
@@ -129,11 +163,11 @@ export default class HelloWorld extends Vue {
         > div + div
             margin-left: 1rem
 
-    .copy-all ::v-deep pre
-        -webkit-user-select: all  /* Chrome all / Safari all */
-        -moz-user-select: all     /* Firefox all */
-        -ms-user-select: all      /* IE 10+ */
-        user-select: all          /* Likely future */
+    //.copy-all ::v-deep pre
+    //    -webkit-user-select: all  /* Chrome all / Safari all */
+    //    -moz-user-select: all     /* Firefox all */
+    //    -ms-user-select: all      /* IE 10+ */
+    //    user-select: all          /* Likely future */
 
     #clipboard-toast__toast_outer ::v-deep .toast-header
         display: none
