@@ -1,14 +1,15 @@
 <template>
     <div class="editors hbox">
-        <div>
-            {{ inputLanguage }}
+        <div class="vbox">
+            <span>{{ inputLanguage }}</span>
             <prism-editor v-model="textInput"
                           emit-events
                           language="css"
+                          class="grow"
                 />
         </div>
-        <div>
-            {{ outputLanguage }}
+        <div class="vbox">
+            <span>{{ outputLanguage }}</span>
             <prism-editor v-model="output"
                           emit-events
                           language="css"
@@ -21,21 +22,20 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-
-    @Component
+@Component
 export default class HelloWorld extends Vue {
 
-        public inputLanguage: 'sass' | 'scss' = 'sass';
+    public inputLanguage: 'sass' | 'scss' = 'sass';
 
-        public textInput: string = '';
+    public textInput: string = '';
 
-        get outputLanguage() {
-            return this.inputLanguage === 'sass' ? 'scss' : 'sass';
-        }
+    get outputLanguage() {
+        return this.inputLanguage === 'sass' ? 'scss' : 'sass';
+    }
 
-        get output() {
-            return '';
-        }
+    get output() {
+        return '';
+    }
 
 }
 </script>
@@ -47,10 +47,11 @@ export default class HelloWorld extends Vue {
         padding: 1rem
 
     .hbox
-        > *
+        > div
             width: 100%
+            height: 100%
 
-        > * + *
+        > div + div
             margin-left: 1rem
 
 </style>
