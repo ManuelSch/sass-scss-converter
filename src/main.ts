@@ -30,7 +30,7 @@ Vue.component('fa-icon', FontAwesomeIcon);
 
 Vue.use(VueClipboard);
 
-console.clear();
+// console.clear();
 
 Vue.config.productionTip = false; // import the styles
 Vue.component('prism-editor', VuePrismEditor);
