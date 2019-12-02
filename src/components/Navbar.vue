@@ -2,7 +2,7 @@
     <b-navbar type="dark" variant="primary">
         <b-navbar-brand>
             Sass-to-SCSS Converter
-            (Beta)
+            [Beta]
             <a href="https://github.com/ManuelSch/sass-scss-converter" style="color: white; font-size: 70%; opacity: 0.7; margin-left: .5rem">
                 by ManuelSch
             </a>

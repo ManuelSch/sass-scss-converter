@@ -10,7 +10,6 @@ export async function convertScssToSass(scssStr: string): Promise<string> {
     const tree = sast.parse(scssStr, { syntax: 'scss' });
 
     traverseAst(tree, removeSemicolon);
-    console.log(tree);
 
     const stringifiedTree = sast.stringify(tree, { syntax: 'sass' });
 

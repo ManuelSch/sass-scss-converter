@@ -1,7 +1,7 @@
 <template>
     <div class="editors vbox">
         <div class="header-bar hbox">
-            <div class="center-full" style="width: 100%; font-variant: small-caps">
+            <div class="center-full" style="width: 100%">
                 From: <strong>{{ inputLanguage }}</strong>
             </div>
             <div>
@@ -13,7 +13,7 @@
                     <fa-icon :icon="['fas', 'arrow-left']" class="mb-1" /> Switch <fa-icon :icon="['fas', 'arrow-right']" class="mb-1" />
                 </b-button>
             </div>
-            <div class="center-full" style="width: 100%; font-variant: small-caps">
+            <div class="center-full" style="width: 100%">
                 To: <strong>{{ outputLanguage }}</strong>
             </div>
         </div>
@@ -71,7 +71,13 @@ import { formatSass } from '@/util/formatSass';
 import { formatScss } from '@/util/formatScss';
 import { downloadTextAsFile } from '@/util/downloadTextAsFile';
 
-@Component
+@Component<Converter>({
+    watch: {
+        inputLanguage() {
+            localStorage.setItem('inputLanguage', this.inputLanguage);
+        },
+    },
+})
 export default class Converter extends Vue {
 
     public MALFORMED_INPUT_OUTPUT = 'malformed input...';
@@ -85,6 +91,13 @@ export default class Converter extends Vue {
     }
 
     public output: string = '';
+
+    created() {
+        const storedInputLanguage = localStorage.getItem('inputLanguage');
+        if (storedInputLanguage === 'Sass' || storedInputLanguage === 'SCSS') {
+            this.inputLanguage = storedInputLanguage;
+        }
+    }
 
     switchLanguages() {
         this.inputLanguage = this.outputLanguage;
