@@ -5,5 +5,16 @@ declare module '*.vue' {
 }
 
 declare module 'vue-prism-editor' {
-  export type PrismEditor = unknown;
+    export type PrismEditor = unknown;
+}
+
+declare module 'sast' {
+    const sast: unknown;
+
+    export default sast;
+}
+
+declare module 'sass-formatter' {
+    export const SassFormatter: any;
+    export const SassTextDocument: any;
 }

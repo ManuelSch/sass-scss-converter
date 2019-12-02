@@ -27,6 +27,7 @@ module.exports = {
         'arrow-parens': 'off',
         'no-continue': 'off',
         'global-require': 'off',
+        'import/prefer-default-export': 'off',
         'vue/html-indent': ['warn', 4, {
             attribute: 1,
             baseIndent: 1,
