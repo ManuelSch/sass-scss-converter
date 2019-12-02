@@ -13,9 +13,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
     faArrowLeft,
     faArrowRight,
-    faArrowsAltH, faCheck, faClipboard, faDownload,
+    faArrowsAltH, faCheck, faClipboard, faDownload, faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
 import VueClipboard from 'vue-clipboard2';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import App from './App.vue';
 
 // hack:
@@ -23,7 +24,7 @@ import App from './App.vue';
 
 
 // Fontawesome:
-library.add(/* faArrowsAltH, */faClipboard, faCheck, faDownload, faArrowRight, faArrowLeft);
+library.add(/* faArrowsAltH, */faClipboard, faCheck, faDownload, faArrowRight, faArrowLeft, faGithub, faExclamationTriangle);
 Vue.component('fa-icon', FontAwesomeIcon);
 
 

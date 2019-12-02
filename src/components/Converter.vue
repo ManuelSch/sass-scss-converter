@@ -27,11 +27,10 @@
                     />
             </div>
             <div class="editor output-editor copy-all">
-                <div class="output-buttons">
+                <div v-if="output && output !== MALFORMED_INPUT_OUTPUT" class="output-buttons">
                     <b-button title="Download as file"
                               squared
                               variant="primary"
-                              :disabled="!output"
                               @click="downloadOutputAsFile()"
                         >
                         <fa-icon :icon="['fas', 'download']" />
@@ -40,7 +39,6 @@
                               title="Copy to clipboard"
                               squared
                               variant="primary"
-                              :disabled="!output"
                               @click="copyOutputToClipboard()"
                         >
                         <fa-icon :icon="['fas', 'clipboard']" />
@@ -73,9 +71,10 @@ import { formatSass } from '@/util/formatSass';
 import { formatScss } from '@/util/formatScss';
 import { downloadTextAsFile } from '@/util/downloadTextAsFile';
 
-
 @Component
 export default class Converter extends Vue {
+
+    public MALFORMED_INPUT_OUTPUT = 'malformed input...';
 
     public inputLanguage: 'Sass' | 'SCSS' = 'Sass';
 
@@ -89,7 +88,7 @@ export default class Converter extends Vue {
 
     switchLanguages() {
         this.inputLanguage = this.outputLanguage;
-        this.input = this.output;
+        this.input = this.output === this.MALFORMED_INPUT_OUTPUT ? '' : this.outputLanguage;
     }
 
     async inputChange() {
@@ -107,7 +106,7 @@ export default class Converter extends Vue {
             }
         }
         catch (e) {
-            this.output = 'malformed input...';
+            this.output = this.MALFORMED_INPUT_OUTPUT;
         }
 
     }

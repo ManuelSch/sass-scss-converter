@@ -1,10 +1,6 @@
 <template>
     <div id="app">
-        <b-navbar type="dark" variant="primary">
-            <b-navbar-brand>
-                Sass-to-SCSS Converter
-            </b-navbar-brand>
-        </b-navbar>
+        <navbar />
         <Converter />
     </div>
 </template>
@@ -12,9 +8,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Converter from './components/Converter.vue';
+import Navbar from '@/components/Navbar.vue';
 
     @Component({
         components: {
+            Navbar,
             Converter,
         },
     })

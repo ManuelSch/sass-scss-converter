@@ -47,7 +47,6 @@
         "typescript": "~3.5.3",
         "typescript-eslint-parser": "^22.0.0",
         "vue-cli-plugin-bootstrap-vue": "^0.5.0",
-        "vue-cli-plugin-vuetify": "^2.0.2",
         "vue-template-compiler": "^2.6.10"
     }
 }
