@@ -1,0 +1,39 @@
+.center-hor {
+    display: flex;
+    justify-content: center;
+}
+
+.center-ver {
+    display: flex;
+    align-items: center;
+}
+
+.center-full {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hbox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+
+.vbox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    height: 100%;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+
+body, html {
+    height: 100%;
+}
