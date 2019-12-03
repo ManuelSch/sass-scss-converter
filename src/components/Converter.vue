@@ -101,7 +101,7 @@ export default class Converter extends Vue {
 
     switchLanguages() {
         this.inputLanguage = this.outputLanguage;
-        this.input = this.output === this.MALFORMED_INPUT_OUTPUT ? '' : this.outputLanguage;
+        this.input = this.output === this.MALFORMED_INPUT_OUTPUT ? '' : this.output;
     }
 
     async inputChange() {
