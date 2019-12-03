@@ -99,9 +99,11 @@ export default class Converter extends Vue {
         }
     }
 
-    switchLanguages() {
+    async switchLanguages() {
         this.inputLanguage = this.outputLanguage;
         this.input = this.output === this.MALFORMED_INPUT_OUTPUT ? '' : this.output;
+        await this.$nextTick();
+        this.inputChange();
     }
 
     async inputChange() {
