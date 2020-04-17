@@ -1,24 +1,14 @@
-# sass-scss-converter
+# Online Sass-to-SCSS Converter [Beta]
 
-## Project setup
-```
-yarn install
-```
+A small online tool that allows you to convert Sass (indented syntax) to SCSS (CSS-like syntax) and vice versa.
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+### Visit the web app: https://sass-scss-converter.netlify.app
 
-### Compiles and minifies for production
-```
-yarn build
-```
+<br/>
 
-### Lints and fixes files
-```
-yarn lint
-```
+<a href="https://sass-scss-converter.netlify.app" align="center">
+  <img src="./res/screenshot.png"/>
+</a>
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## TODO
+* Add tests
