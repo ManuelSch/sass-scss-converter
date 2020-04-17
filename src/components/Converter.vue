@@ -132,7 +132,7 @@
         }
 
         downloadOutputAsFile() {
-            downloadTextAsFile(`style.${this.outputLanguage}`, this.output);
+            downloadTextAsFile(`style.${this.outputLanguage.toLocaleLowerCase()}`, this.output);
         }
 
     }
