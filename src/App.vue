@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Converter from './components/Converter.vue';
 import Navbar from '@/components/Navbar.vue';
+import Converter from './components/Converter.vue';
 
     @Component({
         components: {

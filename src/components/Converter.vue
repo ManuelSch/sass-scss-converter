@@ -9,7 +9,7 @@
                           variant="outline-secondary"
                           style="white-space: nowrap"
                           @click="switchLanguages()"
-                >
+                    >
                     <fa-icon :icon="['fas', 'arrow-left']" class="mb-1" /> Switch <fa-icon :icon="['fas', 'arrow-right']" class="mb-1" />
                 </b-button>
             </div>
@@ -24,7 +24,7 @@
                               language="css"
                               line-numbers
                               @change="inputChange"
-                />
+                    />
             </div>
             <div class="editor output-editor copy-all">
                 <div v-if="showOutputButtons" class="output-buttons">
@@ -32,7 +32,7 @@
                               squared
                               variant="primary"
                               @click="downloadOutputAsFile()"
-                    >
+                        >
                         <fa-icon :icon="['fas', 'download']" />
                     </b-button>
                     <b-button class="clipboard-button"
@@ -40,7 +40,7 @@
                               squared
                               variant="primary"
                               @click="copyOutputToClipboard()"
-                    >
+                        >
                         <fa-icon :icon="['fas', 'clipboard']" />
                     </b-button>
                 </div>
@@ -49,7 +49,7 @@
                              variant="success"
                              auto-hide-delay="1000"
                              static
-                    >
+                        >
                         <strong>Copied to clipboard</strong> <fa-icon :icon="['fas', 'check']" class="mb-1" />
                     </b-toast>
                 </div>
@@ -57,28 +57,26 @@
                               emit-events
                               language="css"
                               readonly
-                />
+                    />
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator';
-    import { convertSassToScss } from '@/util/convertSassToScss';
-    import { convertScssToSass } from '@/util/convertScssToSass';
-    import { formatSass } from '@/util/formatSass';
-    import { formatScss } from '@/util/formatScss';
-    import { downloadTextAsFile } from '@/util/downloadTextAsFile';
+import { Component, Vue } from 'vue-property-decorator';
+import { convertSassToScss } from '@/util/convertSassToScss';
+import { convertScssToSass } from '@/util/convertScssToSass';
+import { downloadTextAsFile } from '@/util/downloadTextAsFile';
 
-    @Component<Converter>({
-        watch: {
-            inputLanguage() {
-                localStorage.setItem('inputLanguage', this.inputLanguage);
-            },
+@Component<Converter>({
+    watch: {
+        inputLanguage() {
+            localStorage.setItem('inputLanguage', this.inputLanguage);
         },
-    })
-    export default class Converter extends Vue {
+    },
+})
+export default class Converter extends Vue {
 
         public MALFORMED_INPUT_OUTPUT = 'malformed input...';
 
@@ -135,7 +133,7 @@
             downloadTextAsFile(`style.${this.outputLanguage.toLocaleLowerCase()}`, this.output);
         }
 
-    }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
