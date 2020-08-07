@@ -18,7 +18,7 @@
         "bootstrap-vue": "^2.0.4",
         "core-js": "^3.4.3",
         "mutationobserver-shim": "^0.3.3",
-        "prismjs": "^1.17.1",
+        "prismjs": "^1.21.0",
         "sass-formatter": "^0.2.0",
         "sast": "^0.8.1",
         "scssfmt": "^1.0.7",
