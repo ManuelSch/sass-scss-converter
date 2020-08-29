@@ -5,6 +5,9 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
+        "test": "npm run build && npm run test:unit",
+        "test:unit": "vue-cli-service test:unit",
+        "test:unit-w": "vue-cli-service test:unit -w",
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
@@ -29,13 +32,18 @@
         "vue-property-decorator": "^8.3.0"
     },
     "devDependencies": {
+        "@types/chai": "^4.2.11",
+        "@types/mocha": "^5.2.4",
         "@vue/cli-plugin-babel": "^4.1.0",
         "@vue/cli-plugin-eslint": "^4.1.0",
         "@vue/cli-plugin-typescript": "^4.1.0",
+        "@vue/cli-plugin-unit-mocha": "~4.5.0",
         "@vue/cli-service": "^4.1.0",
         "@vue/eslint-config-airbnb": "^4.0.0",
         "@vue/eslint-config-typescript": "^4.0.0",
+        "@vue/test-utils": "^1.0.3",
         "babel-eslint": "^10.0.3",
+        "chai": "^4.1.2",
         "eslint": "^5.16.0",
         "eslint-plugin-vue": "^5.0.0",
         "node-sass": "^4.12.0",

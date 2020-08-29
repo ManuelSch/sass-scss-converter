@@ -1,14 +1,17 @@
 module.exports = {
     root: true,
+
     env: {
         node: true,
     },
+
     extends: [
         'plugin:vue/recommended',
         'plugin:vue/strongly-recommended',
         '@vue/airbnb',
         '@vue/typescript',
     ],
+
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -43,12 +46,15 @@ module.exports = {
             },
         }],
     },
+
     parserOptions: {
         parser: 'typescript-eslint-parser',
     },
+
     plugins: [
         'vue',
     ],
+
     settings: {
         'import/resolver': {
             node: {
@@ -56,4 +62,16 @@ module.exports = {
             },
         },
     },
+
+    overrides: [
+        {
+            files: [
+                '**/__tests__/*.{j,t}s?(x)',
+                '**/tests/unit/**/*.spec.{j,t}s?(x)',
+            ],
+            env: {
+                mocha: true,
+            },
+        },
+    ],
 };
