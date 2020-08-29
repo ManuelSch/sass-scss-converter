@@ -11,11 +11,11 @@ export async function convertSassToScss(sassStr: string): Promise<string> {
 
     const ast = sast.parse(sassStr, { syntax: 'sass' });
 
-    traverseAst(ast, addSemicolon);
     traverseAst(ast, sassMixinIncludeHack);
     traverseAst(ast, sassMixinDefinitionHack);
+    traverseAst(ast, addSemicolon);
 
     const stringifiedTree = sast.stringify(ast, { syntax: 'scss' });
 
-    return formatScss(stringifiedTree);
+    return formatScss(stringifiedTree).trim().replace(/\r/g, '');
 }

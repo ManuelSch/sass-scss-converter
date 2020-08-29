@@ -13,5 +13,5 @@ export async function convertScssToSass(scssStr: string): Promise<string> {
 
     const stringifiedTree = sast.stringify(tree, { syntax: 'sass' });
 
-    return formatSass(stringifiedTree);
+    return formatSass(stringifiedTree).trim().replace(/\r/g, '');
 }
