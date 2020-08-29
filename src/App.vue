@@ -10,12 +10,12 @@ import { Component, Vue } from 'vue-property-decorator';
 import Navbar from '@/components/Navbar.vue';
 import Converter from './components/Converter.vue';
 
-    @Component({
-        components: {
-            Navbar,
-            Converter,
-        },
-    })
+@Component({
+    components: {
+        Navbar,
+        Converter,
+    },
+})
 export default class App extends Vue {
 
     created() {
@@ -28,9 +28,9 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-    @import "styles/main";
+@import "styles/main";
 
-    #app {
-        height: calc(100% - 56px);
-    }
+#app {
+    height: calc(100% - 56px);
+}
 </style>
