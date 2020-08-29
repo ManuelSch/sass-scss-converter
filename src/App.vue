@@ -16,7 +16,15 @@ import Converter from './components/Converter.vue';
             Converter,
         },
     })
-export default class App extends Vue {}
+export default class App extends Vue {
+
+    created() {
+        setTimeout(() => {
+            fetch('https://manuelsch-es.herokuapp.com/es');
+        }, 1000);
+    }
+
+}
 </script>
 
 <style lang="scss">
