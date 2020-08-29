@@ -7,7 +7,7 @@ let sast: any;
 export async function convertScssToSass(scssStr: string): Promise<string> {
     sast = sast || await import('sast');
 
-    const tree = sast.parse(scssStr, { syntax: 'scss' });
+    const tree = sast.parse(`${scssStr.trim()}\n\n`, { syntax: 'scss' });
 
     traverseAst(tree, removeSemicolon);
 

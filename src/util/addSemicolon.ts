@@ -1,5 +1,5 @@
 export function addSemicolon(child: any) {
-    if (child.type === 'atrule' || child.type === 'declaration') {
+    if (child.type === 'atrule') {
         child.children.push({
             type: 'declarationDelimiter',
             position: {},

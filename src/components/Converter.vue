@@ -115,10 +115,10 @@ export default class Converter extends Vue {
 
         try {
             if (this.inputLanguage === 'Sass') {
-                this.output = await convertSassToScss(`${this.input.trim()}\n\n`);
+                this.output = await convertSassToScss(this.input);
             }
             else {
-                this.output = await convertScssToSass(`${this.input.trim()}\n\n`);
+                this.output = await convertScssToSass(this.input);
             }
         }
         catch (e) {

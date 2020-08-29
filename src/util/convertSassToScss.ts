@@ -9,7 +9,7 @@ let sast: any;
 export async function convertSassToScss(sassStr: string): Promise<string> {
     sast = sast || await import('sast');
 
-    const ast = sast.parse(sassStr, { syntax: 'sass' });
+    const ast = sast.parse(`${sassStr.trim()}\n\n`, { syntax: 'sass' });
 
     traverseAst(ast, sassMixinIncludeHack);
     traverseAst(ast, sassMixinDefinitionHack);
