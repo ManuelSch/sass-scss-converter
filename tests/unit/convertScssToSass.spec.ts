@@ -60,6 +60,23 @@ describe('convertScssToSass.ts', () => {
     expect(result).to.equal(expected);
   });
 
+  it('interpolation usage', async () => {
+    const input = `
+@mixin corner-icon($name) {
+  .icon-#{$name} {
+    background-image: url("/icons/#{$name}.svg");
+  }
+}
+`;
+    const expected = `
+@mixin corner-icon($name)
+  .icon-#{$name}
+    background-image: url("/icons/#{$name}.svg")
+`.trim();
+    const result = await convertScssToSass(input);
+    expect(result).to.equal(expected);
+  });
+
   it('multiple indention levels', async () => {
     const input = `
 .container {
