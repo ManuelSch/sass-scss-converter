@@ -1,5 +1,5 @@
 const scssfmt = require('scssfmt');
 
 export function formatScss(rawStr: string): string {
-    return scssfmt(rawStr);
+  return scssfmt(rawStr);
 }

@@ -11,10 +11,10 @@ import Navbar from '@/components/Navbar.vue';
 import Converter from './components/Converter.vue';
 
 @Component({
-    components: {
-        Navbar,
-        Converter,
-    },
+  components: {
+    Navbar,
+    Converter,
+  },
 })
 export default class App extends Vue {
 }

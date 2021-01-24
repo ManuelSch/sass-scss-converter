@@ -5,13 +5,12 @@ import { removeSemicolon } from '@/util/removeSemicolon';
 let sast: any;
 
 export async function convertScssToSass(scssStr: string): Promise<string> {
-    sast = sast || await import('sast');
+  sast = sast || await import('sast');
 
-    const tree = sast.parse(`${scssStr.trim()}\n\n`, { syntax: 'scss' });
+  const tree = sast.parse(`${scssStr.trim()}\n\n`, { syntax: 'scss' });
+  traverseAst(tree, removeSemicolon);
 
-    traverseAst(tree, removeSemicolon);
+  const stringifiedTree = sast.stringify(tree, { syntax: 'sass' });
 
-    const stringifiedTree = sast.stringify(tree, { syntax: 'sass' });
-
-    return formatSass(stringifiedTree).trim().replace(/\r/g, '');
+  return formatSass(stringifiedTree).trim().replace(/\r/g, '');
 }

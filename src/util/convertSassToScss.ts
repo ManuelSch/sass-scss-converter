@@ -7,15 +7,15 @@ import { sassMixinDefinitionHack } from '@/util/sassMixinDefinitionHack';
 let sast: any;
 
 export async function convertSassToScss(sassStr: string): Promise<string> {
-    sast = sast || await import('sast');
+  sast = sast || await import('sast');
 
-    const ast = sast.parse(`${sassStr.trim()}\n\n`, { syntax: 'sass' });
+  const ast = sast.parse(`${sassStr.trim()}\n\n`, { syntax: 'sass' });
 
-    traverseAst(ast, sassMixinIncludeHack);
-    traverseAst(ast, sassMixinDefinitionHack);
-    traverseAst(ast, addSemicolon);
+  traverseAst(ast, sassMixinIncludeHack);
+  traverseAst(ast, sassMixinDefinitionHack);
+  traverseAst(ast, addSemicolon);
 
-    const stringifiedTree = sast.stringify(ast, { syntax: 'scss' });
+  const stringifiedTree = sast.stringify(ast, { syntax: 'scss' });
 
-    return formatScss(stringifiedTree).trim().replace(/\r/g, '');
+  return formatScss(stringifiedTree).trim().replace(/\r/g, '');
 }

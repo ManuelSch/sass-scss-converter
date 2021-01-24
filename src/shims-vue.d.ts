@@ -8,6 +8,10 @@ declare module 'vue-prism-editor' {
     export type PrismEditor = unknown;
 }
 
+declare module 'prismjs/*' {
+    export default any;
+}
+
 declare module 'sast' {
     const sast: unknown;
 
