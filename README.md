@@ -10,8 +10,5 @@ A small online tool that allows you to convert Sass (indented syntax) to SCSS (C
   <img src="./res/screenshot.png"/>
 </a>
 
-## TODO
-* Add tests
-
 ## Keywords:
 Convert Sass to SCSS, Convert SCSS to Sass
