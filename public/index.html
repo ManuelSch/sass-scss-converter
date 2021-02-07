@@ -13,29 +13,29 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <form id="vc" name="vc" netlify>
-        <input name="c" type="hidden" value="1"/>
-    </form>
-    <script>
-        document.getElementById('vc')
-            .addEventListener('submit', (e) => {
-                e.preventDefault();
-                let myForm = document.getElementById('vc');
-                let formData = new FormData(myForm);
-                fetch('/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams(formData).toString(),
-                })
-                    .then(() => console.log('Form successfully submitted'))
-                    .catch((error) => console.error('Form submission failed', error));
-            });
+    <!--    <form id="vc" name="vc" netlify>
+            <input name="c" type="hidden" value="1"/>
+        </form>
+        <script>
+            document.getElementById('vc')
+                .addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    let myForm = document.getElementById('vc');
+                    let formData = new FormData(myForm);
+                    fetch('/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams(formData).toString(),
+                    })
+                        .then(() => console.log('Form successfully submitted'))
+                        .catch((error) => console.error('Form submission failed', error));
+                });
 
-        setTimeout(() => {
-            return document.getElementById('vc')
-                .requestSubmit();
-        }, 2500);
+            setTimeout(() => {
+                return document.getElementById('vc')
+                    .requestSubmit();
+            }, 2500);
 
-    </script>
+        </script>-->
   </body>
 </html>
