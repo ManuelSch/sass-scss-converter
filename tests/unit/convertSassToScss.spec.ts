@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-import { convertSassToScss } from '../../src/util/convertSassToScss';
+import {expect} from 'chai';
+import {convertSassToScss} from '../../src/util/convertSassToScss';
 
 describe('convertSassToScss.ts', () => {
   it('@import - should add semicolon', async () => {
@@ -55,6 +55,19 @@ describe('convertSassToScss.ts', () => {
 .container {
   @include center_horizontal();
 }
+`.trim();
+    const result = await convertSassToScss(input);
+    expect(result).to.equal(expected);
+  });
+
+  it('trailing spaces', async () => {
+    // eslint-disable-next-line no-template-curly-in-string
+    const input = '$trs32: ease-in-out .32s \n$trs2: ease-in-out .2s  \n$basecolor: #25549 \n$activecolor: #1f477f';
+    const expected = `
+$trs32: ease-in-out .32s;
+$trs2: ease-in-out .2s;
+$basecolor: #25549;
+$activecolor: #1f477f;
 `.trim();
     const result = await convertSassToScss(input);
     expect(result).to.equal(expected);
