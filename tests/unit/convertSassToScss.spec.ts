@@ -60,6 +60,40 @@ describe('convertSassToScss.ts', () => {
     expect(result).to.equal(expected);
   });
 
+  it('top-level @include', async () => {
+    const input = `
++dark
+  .card
+    background: white
+`;
+    const expected = `
+@include dark {
+  .card {
+    background: white;
+  }
+}
+`.trim();
+    const result = await convertSassToScss(input);
+    expect(result).to.equal(expected);
+  });
+
+  it('top-level @include + 2nd-level @include', async () => {
+    const input = `
++dark
+  +card
+    background: white
+`;
+    const expected = `
+@include dark {
+  @include card {
+    background: white;
+  }
+}
+`.trim();
+    const result = await convertSassToScss(input);
+    expect(result).to.equal(expected);
+  });
+
   it('trailing spaces', async () => {
     // eslint-disable-next-line no-template-curly-in-string
     const input = '$trs32: ease-in-out .32s \n$trs2: ease-in-out .2s  \n$basecolor: #25549 \n$activecolor: #1f477f';

@@ -22,5 +22,31 @@ export function sassMixinIncludeHack(child: any) {
         ...otherChildren,
       ];
     }
+  } else if (child.type === 'selector' && (child.children && child.children[0] && child.children[0].value === '+')) {
+    // fix for top-level @include's:
+
+    const [firstChild, ...otherChildren] = child.children;
+    // eslint-disable-next-line no-param-reassign
+    child.type = 'include';
+
+    delete firstChild.value;
+    firstChild.type = 'atkeyword';
+    firstChild.children = [
+      {
+        type: 'ident',
+        value: 'include',
+      },
+    ];
+
+    // eslint-disable-next-line no-param-reassign
+    child.children = [
+      firstChild,
+      {
+        type: 'space',
+        value: ' ',
+      },
+      // eslint-disable-next-line no-shadow
+      ...(otherChildren || []).flatMap((child: any) => child.children || []) || [],
+    ];
   }
 }
