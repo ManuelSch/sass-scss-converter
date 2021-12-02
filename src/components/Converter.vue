@@ -67,10 +67,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { convertSassToScss } from '@/util/convertSassToScss';
-import { convertScssToSass } from '@/util/convertScssToSass';
-import { downloadTextAsFile } from '@/util/downloadTextAsFile';
+import {Component, Vue} from 'vue-property-decorator';
+import {convertSassToScss} from '@/util/convertSassToScss';
+import {convertScssToSass} from '@/util/convertScssToSass';
+import {downloadTextAsFile} from '@/util/downloadTextAsFile';
 
 @Component<Converter>({
   watch: {
@@ -80,11 +80,25 @@ import { downloadTextAsFile } from '@/util/downloadTextAsFile';
   },
 })
 export default class Converter extends Vue {
-    public MALFORMED_INPUT_OUTPUT = 'malformed input...';
+  public MALFORMED_INPUT_OUTPUT = 'malformed input...';
 
-    public inputLanguage: 'Sass' | 'SCSS' = 'Sass';
+  public inputLanguage: 'Sass' | 'SCSS' = localStorage.getItem('sass-scss-converter_language') as ('Sass' | 'SCSS') || 'Sass';
 
-    public input = '';
+  public input = localStorage.getItem('sass-scss-converter_input') || `
+@import "../styles/imports"
+
+$col-primary: #f39900
+
+=center_horizontal()
+  display: flex
+  justify-content: center
+
+.container
+  +center_horizontal()
+  border: 1px solid darken($col-background, 10)
+  .item
+    color: $col-primary
+`.trim();
 
     public output = '';
 
@@ -101,6 +115,7 @@ export default class Converter extends Vue {
       if (storedInputLanguage === 'Sass' || storedInputLanguage === 'SCSS') {
         this.inputLanguage = storedInputLanguage;
       }
+      this.inputChange();
     }
 
     async switchLanguages() {
@@ -108,6 +123,7 @@ export default class Converter extends Vue {
       this.input = (this.output === this.MALFORMED_INPUT_OUTPUT ? '' : this.output).trim();
       await this.$nextTick();
       this.inputChange();
+      localStorage.setItem('sass-scss-converter_language', this.inputLanguage);
     }
 
     async inputChange() {
@@ -120,6 +136,7 @@ export default class Converter extends Vue {
       } catch (e) {
         this.output = this.MALFORMED_INPUT_OUTPUT;
       }
+      localStorage.setItem('sass-scss-converter_input', this.input);
     }
 
     async copyOutputToClipboard() {
