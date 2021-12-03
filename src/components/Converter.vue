@@ -72,19 +72,7 @@ import {convertSassToScss} from '@/util/convertSassToScss';
 import {convertScssToSass} from '@/util/convertScssToSass';
 import {downloadTextAsFile} from '@/util/downloadTextAsFile';
 
-@Component<Converter>({
-  watch: {
-    inputLanguage() {
-      localStorage.setItem('inputLanguage', this.inputLanguage);
-    },
-  },
-})
-export default class Converter extends Vue {
-  public MALFORMED_INPUT_OUTPUT = 'malformed input...';
-
-  public inputLanguage: 'Sass' | 'SCSS' = localStorage.getItem('sass-scss-converter_language') as ('Sass' | 'SCSS') || 'Sass';
-
-  public input = localStorage.getItem('sass-scss-converter_input') || `
+const DEFAULT_INPUT = `
 @import "../styles/imports"
 
 $col-primary: #f39900
@@ -100,53 +88,82 @@ $col-primary: #f39900
     color: $col-primary
 `.trim();
 
-    public output = '';
+const DEFAULT_INPUT_LANGUAGE = 'Sass';
 
-    get outputLanguage(): 'Sass' | 'SCSS' {
-      return this.inputLanguage === 'Sass' ? 'SCSS' : 'Sass';
-    }
-
-    get showOutputButtons(): boolean {
-      return !!(this.output && this.output.trim() && this.output !== this.MALFORMED_INPUT_OUTPUT);
-    }
-
-    created() {
-      const storedInputLanguage = localStorage.getItem('inputLanguage');
-      if (storedInputLanguage === 'Sass' || storedInputLanguage === 'SCSS') {
-        this.inputLanguage = storedInputLanguage;
-      }
-      this.inputChange();
-    }
-
-    async switchLanguages() {
-      this.inputLanguage = this.outputLanguage;
-      this.input = (this.output === this.MALFORMED_INPUT_OUTPUT ? '' : this.output).trim();
-      await this.$nextTick();
-      this.inputChange();
-      localStorage.setItem('sass-scss-converter_language', this.inputLanguage);
-    }
-
-    async inputChange() {
-      try {
-        if (this.inputLanguage === 'Sass') {
-          this.output = await convertSassToScss(this.input);
-        } else {
-          this.output = await convertScssToSass(this.input);
-        }
-      } catch (e) {
-        this.output = this.MALFORMED_INPUT_OUTPUT;
-      }
+@Component<Converter>({
+  watch: {
+    inputLanguage() {
+      localStorage.setItem('sass-scss-converter_inputLanguage', this.inputLanguage);
+    },
+    input() {
       localStorage.setItem('sass-scss-converter_input', this.input);
-    }
+    },
+  },
+})
+export default class Converter extends Vue {
+  public MALFORMED_INPUT_OUTPUT = 'malformed input...';
 
-    async copyOutputToClipboard() {
-      await this.$copyText(this.output);
-      (this as any).$bvToast.show('clipboard-toast');
-    }
+  public inputLanguage: 'Sass' | 'SCSS' = DEFAULT_INPUT_LANGUAGE;
 
-    downloadOutputAsFile() {
-      downloadTextAsFile(`style.${this.outputLanguage.toLocaleLowerCase()}`, this.output);
+  public input = DEFAULT_INPUT
+
+  public output = '';
+
+  get outputLanguage(): 'Sass' | 'SCSS' {
+    return this.inputLanguage === 'Sass' ? 'SCSS' : 'Sass';
+  }
+
+  get showOutputButtons(): boolean {
+    return !!(this.output && this.output.trim() && this.output !== this.MALFORMED_INPUT_OUTPUT);
+  }
+
+  created() {
+    this.initializeInputLanguage();
+    this.initializeInput();
+    this.inputChange();
+  }
+
+  private initializeInputLanguage() {
+    const storedInputLanguage = localStorage.getItem('sass-scss-converter_inputLanguage');
+    if (storedInputLanguage === 'Sass' || storedInputLanguage === 'SCSS') {
+      this.inputLanguage = storedInputLanguage;
     }
+  }
+
+  private initializeInput() {
+    const storedInput = localStorage.getItem('sass-scss-converter_input');
+    if (storedInput) {
+      this.input = storedInput;
+    }
+  }
+
+  async switchLanguages() {
+    this.inputLanguage = this.outputLanguage;
+    this.input = (this.output === this.MALFORMED_INPUT_OUTPUT ? '' : this.output).trim();
+    await this.$nextTick();
+    this.inputChange();
+  }
+
+  async inputChange() {
+    try {
+      if (this.inputLanguage === 'Sass') {
+        this.output = await convertSassToScss(this.input);
+      } else {
+        this.output = await convertScssToSass(this.input);
+      }
+    } catch (e) {
+      this.output = this.MALFORMED_INPUT_OUTPUT;
+    }
+  }
+
+  async copyOutputToClipboard() {
+    await this.$copyText(this.output);
+    (this as any).$bvToast.show('clipboard-toast');
+  }
+
+  downloadOutputAsFile() {
+    downloadTextAsFile(`style.${this.outputLanguage.toLocaleLowerCase()}`, this.output);
+  }
 }
 </script>
 
