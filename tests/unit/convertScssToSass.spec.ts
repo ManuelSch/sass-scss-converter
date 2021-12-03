@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-import { convertScssToSass } from '../../src/util/convertScssToSass';
+import {expect} from 'chai';
+import {convertScssToSass} from '../../src/util/convertScssToSass';
 
 describe('convertScssToSass.ts', () => {
   it('@import - should remove semicolon', async () => {
@@ -91,6 +91,30 @@ describe('convertScssToSass.ts', () => {
   border: none
   .item
     color: white
+`.trim();
+    const result = await convertScssToSass(input);
+    expect(result).to.equal(expected);
+  });
+
+  it('messed-up input formatting', async () => {
+    const input = `
+.aaaa {
+    .bbbb {
+    background:blue
+  }
+.cccc {
+}
+    background: white;
+}
+`;
+    const expected = `
+.aaaa
+  .bbbb
+    background: blue
+
+  .cccc
+
+  background: white
 `.trim();
     const result = await convertScssToSass(input);
     expect(result).to.equal(expected);
