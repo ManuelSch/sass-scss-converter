@@ -4,16 +4,14 @@ import {formatScss} from '@/util/formatScss';
 import {sassMixinIncludeHack} from '@/util/sassMixinIncludeHack';
 import {sassMixinDefinitionHack} from '@/util/sassMixinDefinitionHack';
 import {interpolationHack} from '@/util/interpolationHack';
+import {removeTrailingSpacesForEachLine} from "@/util/removeTrailingSpacesForEachLine";
 
 let sast: any;
 
 export async function convertSassToScss(sassStr: string): Promise<string> {
   sast = sast || await import('sast');
 
-  const cleanedUpSassStr = sassStr
-    .split('\n')
-    .map((line) => line.replace(/\s*$/, ''))
-    .join('\n');
+  const cleanedUpSassStr = removeTrailingSpacesForEachLine(sassStr);
   const ast = sast.parse(`${cleanedUpSassStr}\n\n`, {syntax: 'sass'});
 
   traverseAst(ast, sassMixinIncludeHack);
