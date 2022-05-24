@@ -4,6 +4,7 @@
             <div class="center-full" style="width: 100%">
                 From: <strong>{{ inputLanguage }}</strong>
             </div>
+            <button @click="uploadfile">Upload File</button>
             <div>
                 <b-button size="sm"
                           style="white-space: nowrap"
@@ -25,6 +26,7 @@
                               emit-events
                               language="css"
                               line-numbers
+                              id = "theeditor"
                               @change="inputChange"
                     />
             </div>
@@ -60,6 +62,7 @@
                               emit-events
                               language="css"
                               readonly
+                              id="theoutput"
                     />
             </div>
         </div>
@@ -159,6 +162,28 @@ export default class Converter extends Vue {
   async copyOutputToClipboard() {
     await this.$copyText(this.output);
     (this as any).$bvToast.show('clipboard-toast');
+  }
+
+  async uploadfile() {
+    let input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = e => { 
+
+        // getting a hold of the file reference
+        var file = e.target.files[0]; 
+
+        // setting up the reader
+        var reader = new FileReader();
+        reader.readAsText(file,'UTF-8');
+
+        // here we tell the reader what to do when it's done reading...
+        reader.onload = async function(readerEvent) {
+            let content = readerEvent.target.result; // this is the content!
+            document.getElementById("theeditor").querySelector('code').innerHTML = content; 
+            document.getElementById("theoutput").querySelector('code').innerHTML = await convertSassToScss(content as string);          
+        }
+    }
+    input.click();
   }
 
   downloadOutputAsFile() {
