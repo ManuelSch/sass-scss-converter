@@ -21,6 +21,14 @@
         </div>
         <div class="hbox grow" style="position: relative">
             <div class="editor">
+              <b-button squared
+                        title="Upload file"
+                        variant="primary"
+                        @click="uploadFile()"
+                        class="file-upload-button"
+              >
+                <fa-icon :icon="['fas', 'upload']" />
+              </b-button>
                 <prism-editor v-model="input"
                               emit-events
                               language="css"
@@ -67,10 +75,11 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
-import {convertSassToScss} from '@/util/convertSassToScss';
-import {convertScssToSass} from '@/util/convertScssToSass';
-import {downloadTextAsFile} from '@/util/downloadTextAsFile';
+import { Component, Vue } from 'vue-property-decorator';
+import { convertSassToScss } from '@/util/convertSassToScss';
+import { convertScssToSass } from '@/util/convertScssToSass';
+import { downloadTextAsFile } from '@/util/downloadTextAsFile';
+import { uploadTextFile } from '@/util/uploadTextFile';
 
 const DEFAULT_INPUT = `
 @import "../styles/imports"
@@ -108,6 +117,8 @@ export default class Converter extends Vue {
   public input = DEFAULT_INPUT
 
   public output = '';
+
+  public downloadFileName = 'style';
 
   get outputLanguage(): 'Sass' | 'SCSS' {
     return this.inputLanguage === 'Sass' ? 'SCSS' : 'Sass';
@@ -161,8 +172,18 @@ export default class Converter extends Vue {
     (this as any).$bvToast.show('clipboard-toast');
   }
 
+  async uploadFile() {
+    const { name, extension, content } = await uploadTextFile();
+    if (extension !== this.inputLanguage.toLocaleLowerCase()) {
+      await this.switchLanguages();
+    }
+    this.input = content;
+    this.downloadFileName = name;
+    await this.inputChange();
+  }
+
   downloadOutputAsFile() {
-    downloadTextAsFile(`style.${this.outputLanguage.toLocaleLowerCase()}`, this.output);
+    downloadTextAsFile(`${this.downloadFileName}.${this.outputLanguage.toLocaleLowerCase()}`, this.output);
   }
 }
 </script>
@@ -186,6 +207,11 @@ export default class Converter extends Vue {
     .editor
         width: 100%
         max-width: calc(50% - .5rem)
+        position: relative
+
+        .file-upload-button
+          position: absolute
+          right: 0
 
     .output-editor
         position: relative

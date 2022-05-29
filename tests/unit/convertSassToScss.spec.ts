@@ -1,5 +1,5 @@
-import {expect} from 'chai';
-import {convertSassToScss} from '../../src/util/convertSassToScss';
+import { expect } from 'chai';
+import { convertSassToScss } from '../../src/util/convertSassToScss';
 
 describe('convertSassToScss.ts', () => {
   it('@import - should add semicolon', async () => {

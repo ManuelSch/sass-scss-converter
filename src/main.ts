@@ -11,7 +11,7 @@ import 'vue-prism-editor/dist/VuePrismEditor.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
-  faArrowLeft, faArrowRight, faCheck, faClipboard, faDownload, faExclamationTriangle,
+  faArrowLeft, faArrowRight, faCheck, faClipboard, faDownload, faExclamationTriangle, faUpload,
 } from '@fortawesome/free-solid-svg-icons';
 import VueClipboard from 'vue-clipboard2';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
@@ -22,7 +22,7 @@ import App from './App.vue';
 
 // Fontawesome:
 library.add(/* faArrowsAltH, */faClipboard, faCheck, faDownload,
-  faArrowRight, faArrowLeft, faGithub, faExclamationTriangle);
+  faArrowRight, faArrowLeft, faGithub, faExclamationTriangle, faUpload);
 Vue.component('fa-icon', FontAwesomeIcon);
 
 Vue.use(VueClipboard);
