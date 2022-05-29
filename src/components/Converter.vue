@@ -4,7 +4,6 @@
             <div class="center-full" style="width: 100%">
                 From: <strong>{{ inputLanguage }}</strong>
             </div>
-            <button @click="uploadfile">Upload File</button>
             <div>
                 <b-button size="sm"
                           style="white-space: nowrap"
@@ -22,11 +21,18 @@
         </div>
         <div class="hbox grow" style="position: relative">
             <div class="editor">
+              <b-button squared
+                        title="Upload file"
+                        variant="primary"
+                        @click="uploadFile()"
+                        class="file-upload-button"
+              >
+                <fa-icon :icon="['fas', 'upload']" />
+              </b-button>
                 <prism-editor v-model="input"
                               emit-events
                               language="css"
                               line-numbers
-                              id = "theeditor"
                               @change="inputChange"
                     />
             </div>
@@ -62,7 +68,6 @@
                               emit-events
                               language="css"
                               readonly
-                              id="theoutput"
                     />
             </div>
         </div>
@@ -70,10 +75,11 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
-import {convertSassToScss} from '@/util/convertSassToScss';
-import {convertScssToSass} from '@/util/convertScssToSass';
-import {downloadTextAsFile} from '@/util/downloadTextAsFile';
+import { Component, Vue } from 'vue-property-decorator';
+import { convertSassToScss } from '@/util/convertSassToScss';
+import { convertScssToSass } from '@/util/convertScssToSass';
+import { downloadTextAsFile } from '@/util/downloadTextAsFile';
+import { uploadTextFile } from '@/util/uploadTextFile';
 
 const DEFAULT_INPUT = `
 @import "../styles/imports"
@@ -111,6 +117,8 @@ export default class Converter extends Vue {
   public input = DEFAULT_INPUT
 
   public output = '';
+
+  public downloadFileName = 'style';
 
   get outputLanguage(): 'Sass' | 'SCSS' {
     return this.inputLanguage === 'Sass' ? 'SCSS' : 'Sass';
@@ -164,30 +172,18 @@ export default class Converter extends Vue {
     (this as any).$bvToast.show('clipboard-toast');
   }
 
-  async uploadfile() {
-    let input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = e => { 
-
-        // getting a hold of the file reference
-        var file = e.target.files[0]; 
-
-        // setting up the reader
-        var reader = new FileReader();
-        reader.readAsText(file,'UTF-8');
-
-        // here we tell the reader what to do when it's done reading...
-        reader.onload = async function(readerEvent) {
-            let content = readerEvent.target.result; // this is the content!
-            document.getElementById("theeditor").querySelector('code').innerHTML = content; 
-            document.getElementById("theoutput").querySelector('code').innerHTML = await convertSassToScss(content as string);          
-        }
+  async uploadFile() {
+    const { name, extension, content } = await uploadTextFile();
+    if (extension !== this.inputLanguage.toLocaleLowerCase()) {
+      await this.switchLanguages();
     }
-    input.click();
+    this.input = content;
+    this.downloadFileName = name;
+    await this.inputChange();
   }
 
   downloadOutputAsFile() {
-    downloadTextAsFile(`style.${this.outputLanguage.toLocaleLowerCase()}`, this.output);
+    downloadTextAsFile(`${this.downloadFileName}.${this.outputLanguage.toLocaleLowerCase()}`, this.output);
   }
 }
 </script>
@@ -211,6 +207,11 @@ export default class Converter extends Vue {
     .editor
         width: 100%
         max-width: calc(50% - .5rem)
+        position: relative
+
+        .file-upload-button
+          position: absolute
+          right: 0
 
     .output-editor
         position: relative
