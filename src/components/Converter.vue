@@ -15,7 +15,9 @@
                     <fa-icon :icon="['fas', 'arrow-right']" class="mb-1" />
                 </b-button>
             </div>
-            <div class="center-full" style="width: 100%">
+            <div class="center-full" style="width: 100%;justify-content: flex-start;">
+                <span style="font-size:15px;word-wrap: break-word;width:20%">Auto-Nesting (Beta and only for sass to scss)</span>
+                <input type="checkbox" v-model="nestingtoggle" @change="inputChange()" style="margin-right:3vw;">
                 To: <strong>{{ outputLanguage }}</strong>
             </div>
         </div>
@@ -120,6 +122,8 @@ export default class Converter extends Vue {
 
   public downloadFileName = 'style';
 
+  public nestingtoggle = false;
+
   get outputLanguage(): 'Sass' | 'SCSS' {
     return this.inputLanguage === 'Sass' ? 'SCSS' : 'Sass';
   }
@@ -159,6 +163,9 @@ export default class Converter extends Vue {
     try {
       if (this.inputLanguage === 'Sass') {
         this.output = await convertSassToScss(this.input);
+        if (this.nestingtoggle) {
+          this.output = this.autoNester(this.output);
+        }        
       } else {
         this.output = await convertScssToSass(this.input);
       }
@@ -184,6 +191,70 @@ export default class Converter extends Vue {
 
   downloadOutputAsFile() {
     downloadTextAsFile(`${this.downloadFileName}.${this.outputLanguage.toLocaleLowerCase()}`, this.output);
+  }
+
+  autoNester(content : string) {
+    let lines : string[] = content.split(/[\n]+/); // split into blocks
+    let blocks = [];
+    let block = [];
+    let blockflag = false;
+    for (const line of lines) {
+      if (line.slice(line.length - 1) === "{") {
+        block.push("  " + line);
+        blockflag = true;
+      }
+      else if (line.slice(line.length - 1) === "}") {
+        block.push("  " + line);
+        blockflag = false;
+        blocks.push(block.join("\n"));
+        block = [];
+      }
+      else if (blockflag) {
+        block.push("  " + line);
+      }
+      else {
+        blocks.push(line);
+      }
+    }
+
+    let selectors = [];
+    for (const block of blocks) {
+      const selector = block.split("{")[0].trimStart().split(" "); //get what is left of { since that is selector, then split that into array elements
+      selectors.push(selector.slice(0,-1)); //last element is an "" so we don't want that
+    }
+
+    let branches : any = {};
+    let untouched_blocks = [];
+    for (const [index,selector] of selectors.entries()) { //this syntax gets value and index of array elements like python enumerate
+      const key = selector[0];
+      if (selector.length > 1) {
+        if (key in branches) {       
+          branches[key].push([selector[1],index]);        
+        } 
+        else {
+          branches[key] = [[selector[1],index]];
+        }         
+      }      
+      else {
+        untouched_blocks.push(index);
+      }
+    }
+
+    let newcontent = "";
+    for (let index of untouched_blocks) {
+      newcontent += blocks[index] + "\n";
+    }
+    newcontent += "\n";
+    for (let root in branches) {
+      newcontent += root + " {\n";
+
+      for (let branch of branches[root]) {
+        newcontent += ` ${blocks[branch[1]].substring(root.length + 2).replaceAll('\n','  \n')}\n`; //branch[1] is the index of the selector in blocks
+      }
+
+      newcontent += "}";
+    }
+    return newcontent;
   }
 }
 </script>
