@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { convertScssToSass } from '../../src/util/convertScssToSass';
+import { convertScssToSass } from '@/util/convertScssToSass';
 
 describe('convertScssToSass.ts', () => {
   it('@import - should remove semicolon', async () => {
@@ -96,7 +96,7 @@ describe('convertScssToSass.ts', () => {
     expect(result).to.equal(expected);
   });
 
-  it('messed-up input formatting', async () => {
+  it('messed-up input formatting #1', async () => {
     const input = `
 .aaaa {
     .bbbb {
@@ -111,10 +111,93 @@ describe('convertScssToSass.ts', () => {
 .aaaa
   .bbbb
     background: blue
+  .cccc
+  background: white
+`.trim();
+    const result = await convertScssToSass(input);
+    expect(result).to.equal(expected);
+  });
+
+  it('messed-up input formatting #2', async () => {
+    const input = `
+.aaaa {
+    .bbbb {
+    background:blue
+  }
+
+.cccc {
+}
+    background: white;
+}
+`;
+    const expected = `
+.aaaa
+  .bbbb
+    background: blue
 
   .cccc
-
   background: white
+`.trim();
+    const result = await convertScssToSass(input);
+    expect(result).to.equal(expected);
+  });
+
+  it('if, else-if', async () => {
+    const input = `
+@mixin centered($horizontal: true, $vertical: true) {
+  @if ($horizontal and $vertical) {
+    top: 0;
+  } @else if ($horizontal) {
+    left: 0;
+  }
+  @else if ($vertical) {
+    top: 0;
+  }
+}
+`.replace('}', '}\n');
+    const expected = `
+@mixin centered($horizontal: true, $vertical: true)
+  @if ($horizontal and $vertical)
+    top: 0
+  @else if ($horizontal)
+    left: 0
+  @else if ($vertical)
+    top: 0
+`.trim();
+    const result = await convertScssToSass(input);
+    expect(result).to.equal(expected);
+  });
+
+  it('if, else-if #2', async () => {
+    const input = `
+@mixin centered($horizontal: true, $vertical: true) {
+  position: absolute;
+  @if ($horizontal and $vertical) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } @else if ($horizontal) {
+    left: 50%;
+    transform: translate(-50%, 0);
+  } @else if ($vertical) {
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+}
+`.replace('}', '}\n');
+    const expected = `
+@mixin centered($horizontal: true, $vertical: true)
+  position: absolute
+  @if ($horizontal and $vertical)
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+  @else if ($horizontal)
+    left: 50%
+    transform: translate(-50%, 0)
+  @else if ($vertical)
+    top: 50%
+    transform: translate(0, -50%)
 `.trim();
     const result = await convertScssToSass(input);
     expect(result).to.equal(expected);
@@ -128,6 +211,7 @@ $col-primary: #f39900;
   display: flex;
   justify-content: center;
 }
+
 .container {
   @include center_horizontal();
   border: 1px solid darken($col-background, 10);

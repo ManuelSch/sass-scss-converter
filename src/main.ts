@@ -21,8 +21,8 @@ import App from './App.vue';
 (process as any).version = '1.0.0';
 
 // Fontawesome:
-library.add(/* faArrowsAltH, */faClipboard, faCheck, faDownload,
-  faArrowRight, faArrowLeft, faGithub, faExclamationTriangle, faUpload);
+library.add(...[faClipboard, faCheck, faDownload, faArrowRight, faArrowLeft, faGithub,
+  faExclamationTriangle, faUpload] as any[]);
 Vue.component('fa-icon', FontAwesomeIcon);
 
 Vue.use(VueClipboard);
