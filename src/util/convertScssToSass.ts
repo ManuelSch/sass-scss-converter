@@ -5,6 +5,7 @@ import { formatScss } from '@/util/formatScss';
 import { removeTrailingSpacesForEachLine } from '@/util/removeTrailingSpacesForEachLine';
 import { fixIdentation } from '@/util/fixIdentation';
 import { placeholderHack } from '@/util/placeholderHack';
+import { cssVariableHack } from '@/util/cssVariableHack';
 
 let sast: any;
 
@@ -24,6 +25,7 @@ export async function convertScssToSass(scssStr: string): Promise<string> {
     node.type = node.type === 'block' ? '_block' : node.type;
   });
   traverseAst(tree, placeholderHack);
+  traverseAst(tree, cssVariableHack);
 
   const stringifiedTree = removeTrailingSpacesForEachLine(sast.stringify(tree).trim());
   return stringifiedTree;

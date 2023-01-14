@@ -222,6 +222,30 @@ describe('convertScssToSass.ts', () => {
     expect(result).to.equal(expected);
   });
 
+  it('CSS variables', async () => {
+    const input = `
+\\:root {
+  --c1: #{$-c1};
+  --c2: #{$-c2};
+  --c3: #{$-c3};
+  --c4: #{$-c4};
+  --c5: #{$-c5};
+  --c6: #{$-c6};
+}
+`.trim();
+    const expected = `
+\\:root
+  --c1: #{$-c1}
+  --c2: #{$-c2}
+  --c3: #{$-c3}
+  --c4: #{$-c4}
+  --c5: #{$-c5}
+  --c6: #{$-c6}
+`.trim();
+    const result = await convertScssToSass(input);
+    expect(result).to.equal(expected);
+  });
+
   it('full example', async () => {
     const input = `
 @import "../styles/imports";

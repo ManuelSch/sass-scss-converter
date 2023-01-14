@@ -6,6 +6,7 @@ import { sassMixinDefinitionHack } from '@/util/sassMixinDefinitionHack';
 import { interpolationHack } from '@/util/interpolationHack';
 import { removeTrailingSpacesForEachLine } from '@/util/removeTrailingSpacesForEachLine';
 import { placeholderHack } from '@/util/placeholderHack';
+import { cssVariableHack } from '@/util/cssVariableHack';
 
 let sast: any;
 
@@ -23,6 +24,7 @@ export async function convertSassToScss(sassStr: string): Promise<string> {
   traverseAst(ast, addSemicolon);
   traverseAst(ast, interpolationHack);
   traverseAst(ast, placeholderHack);
+  traverseAst(ast, cssVariableHack);
 
   const stringifiedTree = sast.stringify(ast, { syntax: 'scss' });
 
