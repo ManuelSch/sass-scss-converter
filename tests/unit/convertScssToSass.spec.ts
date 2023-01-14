@@ -203,6 +203,25 @@ describe('convertScssToSass.ts', () => {
     expect(result).to.equal(expected);
   });
 
+  it('placeholders', async () => {
+    const input = `
+%placeholder {
+  color: red;
+}
+.my-thing {
+  @extend %placeholder;
+}
+`;
+    const expected = `
+%placeholder
+  color: red
+.my-thing
+  @extend %placeholder
+`.trim();
+    const result = await convertScssToSass(input);
+    expect(result).to.equal(expected);
+  });
+
   it('full example', async () => {
     const input = `
 @import "../styles/imports";

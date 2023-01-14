@@ -143,6 +143,25 @@ $activecolor: #1f477f;
     expect(result).to.equal(expected);
   });
 
+  it('placeholders', async () => {
+    const input = `
+%placeholder
+  color: red
+.my-thing
+  @extend %placeholder
+`;
+    const expected = `
+%placeholder {
+  color: red;
+}
+.my-thing {
+  @extend %placeholder;
+}
+`.trim();
+    const result = await convertSassToScss(input);
+    expect(result).to.equal(expected);
+  });
+
   it('full example', async () => {
     const input = `
 @import "../styles/imports"
