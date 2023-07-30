@@ -186,6 +186,19 @@ $activecolor: #1f477f;
     expect(result).to.equal(expected);
   });
 
+  it('quotes around import paths are required in SCSS', async () => {
+    const input = `
+@import "test1"
+@import test2
+`.trim();
+    const expected = `
+@import "test1";
+@import "test2";
+`.trim();
+    const result = await convertSassToScss(input);
+    expect(result).to.equal(expected);
+  });
+
   it('full example', async () => {
     const input = `
 @import "../styles/imports"

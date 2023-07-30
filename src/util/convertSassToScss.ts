@@ -7,6 +7,7 @@ import { interpolationHack } from '@/util/interpolationHack';
 import { removeTrailingSpacesForEachLine } from '@/util/removeTrailingSpacesForEachLine';
 import { placeholderHack } from '@/util/placeholderHack';
 import { cssVariableHack } from '@/util/cssVariableHack';
+import { importQuotesHack } from '@/util/importQuotesHack';
 
 let sast: any;
 
@@ -25,6 +26,7 @@ export async function convertSassToScss(sassStr: string): Promise<string> {
   traverseAst(ast, interpolationHack);
   traverseAst(ast, placeholderHack);
   traverseAst(ast, cssVariableHack);
+  traverseAst(ast, importQuotesHack);
 
   const stringifiedTree = sast.stringify(ast, { syntax: 'scss' });
 
