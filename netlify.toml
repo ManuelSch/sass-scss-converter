@@ -1,0 +1,5 @@
+[[redirects]]
+    from = "https://sass-scss-converter.netlify.app/"
+    to = "https://sass-scss-converter.com/"
+    status = 301
+    force = true

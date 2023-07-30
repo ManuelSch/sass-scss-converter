@@ -2,7 +2,7 @@
 
 A small online tool that allows you to convert Sass (indented syntax) to SCSS (CSS-like syntax) and vice versa.
 
-### Visit the web app: https://sass-scss-converter.netlify.app
+### Visit the web app: https://sass-scss-converter.com/
 
 <br/>
 
