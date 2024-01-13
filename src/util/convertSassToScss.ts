@@ -8,6 +8,10 @@ import { removeTrailingSpacesForEachLine } from '@/util/removeTrailingSpacesForE
 import { placeholderHack } from '@/util/placeholderHack';
 import { cssVariableHack } from '@/util/cssVariableHack';
 import { importQuotesHack } from '@/util/importQuotesHack';
+import {
+  operatorInArgumentsHack,
+  operatorInArgumentsHackPostFormat,
+} from '@/util/operatorInArgumentsHack';
 
 let sast: any;
 
@@ -27,8 +31,12 @@ export async function convertSassToScss(sassStr: string): Promise<string> {
   traverseAst(ast, placeholderHack);
   traverseAst(ast, cssVariableHack);
   traverseAst(ast, importQuotesHack);
+  traverseAst(ast, operatorInArgumentsHack);
 
   const stringifiedTree = sast.stringify(ast, { syntax: 'scss' });
+  let formattedScss = formatScss(stringifiedTree).trim().replace(/\r/g, '');
 
-  return formatScss(stringifiedTree).trim().replace(/\r/g, '');
+  formattedScss = operatorInArgumentsHackPostFormat(formattedScss);
+
+  return formattedScss;
 }

@@ -199,6 +199,59 @@ $activecolor: #1f477f;
     expect(result).to.equal(expected);
   });
 
+  it('nth-child selector', async () => {
+    const input = `
+div:nth-child(3n+1)
+  padding-left: 25px
+`.trim();
+    const expected = `
+div:nth-child(3n+1) {
+  padding-left: 25px;
+}
+`.trim();
+    const result = await convertSassToScss(input);
+    expect(result).to.equal(expected);
+  });
+
+  it('nth-child selector full example', async () => {
+    const input = `
+.cards
+  &__wrapper
+    +columns(3)
+  &__wrapper
+    padding-bottom: 50px
+  &__wrapper:nth-child(3n+1)
+    padding-right: 25px
+  &__wrapper:nth-child(3n+2)
+    padding-left: 12px
+    padding-right: 12px
+  &__wrapper:nth-child(3n+3)
+    padding-left: 25px
+`.trim();
+    const expected = `
+.cards {
+  &__wrapper {
+    @include columns(3);
+  }
+  &__wrapper {
+    padding-bottom: 50px;
+  }
+  &__wrapper:nth-child(3n+1) {
+    padding-right: 25px;
+  }
+  &__wrapper:nth-child(3n+2) {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  &__wrapper:nth-child(3n+3) {
+    padding-left: 25px;
+  }
+}
+`.trim();
+    const result = await convertSassToScss(input);
+    expect(result).to.equal(expected);
+  });
+
   it('full example', async () => {
     const input = `
 @import "../styles/imports"
